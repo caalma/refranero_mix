@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+  <head>
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="true" name="HandheldFriendly">
+    <meta content="width" name="MobileOptimized">
+    <meta content="on" http-equiv="cleartype">
+    <style>
+      * { font-family: sans-serif; }
+      body {
+	  background: #444;
+	  color: #eee;
+	  height: 100vh;
+	  width: 100hw;
+	  display: flex;
+	  justify-content: center;
+	  align-content: middle;
+	  background-image: linear-gradient(#222, #333, #222);
+      }
+      body.error {
+	  background-image: linear-gradient(#422, #633, #422);
+      }
+      body.error footer {
+	  display: none;
+      }
+      header {
+	  position: fixed;
+	  top: 0;
+	  right: 0;
+	  padding: 10px;
+	  text-align: center;
+      }
+      header button {
+	  padding: 10px;
+	  border-radius: 5px;
+	  border: 1px solid rgba(255,255,255,.5);
+	  background: transparent;
+	  color: #ddd;
+	  cursor: pointer;
+      }
+      header button:hover {
+	  background: rgba(255,255,255,.1);
+	  color: #fff;
+      }
+      p{
+	  margin: auto;
+	  font-size: 2em;
+	  text-align: center;
+      }
+      p span:hover {
+	  cursor: default;
+	  color: #ff2;
+      }
+      footer {
+	  position: fixed;
+	  bottom: 0;
+	  left: 0;
+	  right: 0;
+	  padding: 20px;
+	  background: rgba(0,0,0,.3);
+      }
+
+      footer span.resaltar {
+	  color: #ff2;
+      }
+    </style>
+    <title>Refranero Mix</title>
+  </head>
+  <body>
+    <header><button id="otro">OTRO</button></header>
+    <p>
+      <span id="a"></span><span id="b"></span>
+      <br><br><br>
+    </p>
+
+    <footer>
+      <span id="ra"></span><hr><span id="rb"></span>
+    </footer>
+
+    <script>
+      let cargar = function(ar, cb_ok, cb_er){
+	  let xhr = new XMLHttpRequest();
+	  xhr.open('GET', ar);
+	  xhr.send(null);
+	  xhr.onreadystatechange = function () {
+	      let DONE = 4;
+	      let OK = 200;
+	      if (xhr.readyState === DONE) {
+		  if (xhr.status === OK) {
+		      cb_ok(xhr.responseText);
+		  } else {
+		      cb_er();
+		  }
+	      }
+	  };
+      }
+
+      let separar = function(tex, modo){
+	  let s,
+	      r = ('', ''),
+	      agregar = true;
+
+	  if(modo === "una_coma"){
+	      s = ',';
+	  }else if(modo === "un_puntoycoma"){
+	      s = ';';
+	  }else if(modo === "separacion_manual"){
+              s = '|';
+	      agregar = false;
+	  }
+	  r = tex.split(s);
+	  if(agregar){ r[0] += s; }
+	  return r;
+      }
+
+      let mostrar = function(r1, r2, r1p, r2p){
+	  let pa = document.getElementById('a'),
+	      pb = document.getElementById('b'),
+	      ra = document.getElementById('ra'),
+	      rb = document.getElementById('rb'),
+	      cn = 'resaltar';
+
+	  pa.innerText = r1p;
+	  pb.innerText = r2p;
+	  ra.innerText = r1;
+	  rb.innerText = r2;
+
+	  pa.onmouseover = function(){
+	      ra.className = cn;
+	  }
+	  pb.onmouseover = function(){
+	      rb.className = cn;
+	  }
+	  pa.onmouseleave = pb.onmouseleave = function(){
+	      ra.className = rb.className = '';
+	  }
+      }
+
+      let generar = function(tex){
+	  let bd = tex.split('\n'),
+	      ri1 = ri2 = Math.round(Math.random() * (bd.length - 1));
+	  while( ri1 == ri2 ){
+	      ri2 = Math.round(Math.random() * (bd.length - 1));
+	  }
+
+	  let r1 = bd[ri1],
+	      r2 = bd[ri2],
+	      modo = bd_disponibles[bdi][0],
+	      r1p = separar(r1, modo),
+	      r2p = separar(r2, modo);
+
+	  if(modo == 'separacion_manual'){
+	      r1 = r1.replace('|', '');
+	      r2 = r2.replace('|', '');
+	  }
+	  mostrar(r1, r2, r1p[0], r2p[1]);
+      }
+
+      let error = function(){
+	  document.getElementsByTagName('body')[0].className = 'error';
+	  mostrar('', '', 'Error ', 'desconocido.');
+      }
+
+      let bd_disponibles = [
+	  ['una_coma', './bd/con_una_coma.txt'],
+	  ['un_puntoycoma', './bd/con_un_punto_y_coma.txt'],
+	  ['separacion_manual', './bd/con_separacion_manual.txt'],
+      ];
+
+      let bdi = Math.round(Math.random() * (bd_disponibles.length - 1));
+
+      document.getElementById('otro').onclick = function(){
+	  document.location.reload();
+      }
+
+      cargar(bd_disponibles[bdi][1], generar, error);
+    </script>
+  </body>
+</html>
