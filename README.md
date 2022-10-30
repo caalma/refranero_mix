@@ -8,7 +8,7 @@
 Dispone de
 + Una versión (en python) para usar desde terminal.
 + Una versión web.
-+ Una
++ Un filtro automatizado para tipos de refranes (en python).
 
 ## Fuente de los refranes originales
 
