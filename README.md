@@ -24,3 +24,8 @@ Dispone de:
 + https://www.ecured.cu/Refranero_popular
 + https://www.pequeocio.com/refranes-populares/
 + https://www.refranerocastellano.com/
+
+## Falta 
+
++ Filtrar refranes.
++ Ajustar sintaxis de refranes.
