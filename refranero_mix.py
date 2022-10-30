@@ -2,10 +2,11 @@
 
 from random import randint
 
-def partir(tex, modo):
-    r = ['', '']
+def separar(tex, modo):
     s = ''
     agregar = True
+    r = ['', '']
+
     if modo == "una_coma":
         s = ','
     elif modo == "un_puntoycoma":
@@ -38,13 +39,13 @@ r2 = bd[ri2]
 
 modo = la[mi][0]
 
-rp1 = partir(r1, modo)[0]
-rp2 = partir(r2, modo)[1]
+rp1 = separar(r1, modo)[0]
+rp2 = separar(r2, modo)[1]
 
 if modo == 'separacion_manual':
     r1 = r1.replace('|', '')
     r2 = r2.replace('|', '')
 
-print(f'\n==  {rp1}{rp2} ==\n')
+print(f'\n==  {rp1}{rp2}  ==\n')
 print(f':1  {r1}')
 print(f':2  {r2}')

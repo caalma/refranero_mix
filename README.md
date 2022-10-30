@@ -5,10 +5,11 @@
 
 ## Utilidades
 
-Dispone de
-+ Una versión (en python) para usar desde terminal.
+Dispone de:
+
 + Una versión web.
-+ Un filtro automatizado para tipos de refranes (en python).
++ Dos versión para usar en consola (una en Nim y otra en Python).
++ Un filtro/selector automatizado para tipos de refranes según su estructura (en Python).
 
 ## Fuente de los refranes originales
 
